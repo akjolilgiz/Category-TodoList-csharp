@@ -25,13 +25,24 @@ namespace ToDoList.Controllers
         public ActionResult Create()
         {
             Item newItem = new Item(Request.Form["new-item"]);
-
-            newItem.Save();
-            List<Item> tempList = Item.GetAll();
-
-            // List<Item> allItems = new List<Item> {newItem};
-            return View("Index", tempList);
+            List<Item> allItems = Item.GetAll();
+            return View("Index", allItems);
         }
+
+        [HttpPost("/items/delete")]
+        public ActionResult DeleteAll()
+        {
+            Item.ClearAll();
+            return View();
+        }
+
+        [HttpGet("/items/{id}")]
+        public ActionResult Details(int id)
+        {
+            Item item = Item.Find(id);
+            return View(item);
+        }
+
 
     }
 }
